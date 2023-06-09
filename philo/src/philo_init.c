@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/08 17:53:10 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/09 10:52:10 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	init_args(int ac, char **av, t_comp *compend)
 	if (ac == 5 || ac == 6)
 	{
 		compend->n_philo = ft_atoi(av[1]);
-		compend->t_death = ft_atoi(av[2]);
-		compend->t_eat = ft_atoi(av[3]);
-		compend->t_sleep = ft_atoi(av[4]);
+		compend->t_death = ft_atoi(av[2]) * 1000;
+		compend->t_eat = ft_atoi(av[3]) * 1000;
+		compend->t_sleep = ft_atoi(av[4]) * 1000;
 		return (0);
 	}		
 	else
@@ -44,18 +44,4 @@ int	is_unsigned_int(char **av, int ac)
 		i++;
 	}
 	return (0);
-}
-
-int	init_philos(t_philos *philos, int i)
-{
-	philos->name = i;
-	pthread_create(philos->thread, philos->attr, hello, NULL);
-	return (0);
-}
-
-void	*hello(void *ptr)
-{
-	(void)ptr;
-	printf("hello from the thread\n");
-	return (NULL);
 }
