@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/09 10:40:27 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/10 09:45:32 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,14 @@
 # include <stdio.h>
 # include <pthread.h>
 # include <unistd.h>
+# include <stdlib.h>
 # include <sys/time.h>
 
 typedef struct s_comp
 {
 	int		n_cycles;
 	int		n_philo;
+	int		n_forks;
 	int		t_death;
 	int		t_eat;
 	int		t_sleep;
@@ -31,7 +33,7 @@ typedef struct s_philos
 {
 	int			name;
 	t_comp		compend;
-	pthread_t	thread;
+	pthread_t	*thread;
 }	t_philos;
 
 //FOR_TESTING.C
@@ -45,7 +47,7 @@ int		is_unsigned_int(char **av, int ac);
 
 //PHILO_INVOK.C
 void	create_philos(t_philos *philos);
-int		init_philos(t_philos *philos, int i);
+void	init_philos(t_philos *philos, int i);
 void	*hello(t_philos *ptr);
 
 //PHILO_atoi.c
