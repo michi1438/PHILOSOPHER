@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/12 09:52:52 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/13 12:08:47 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,40 @@ void	*hello(t_philos *philos)
 {
 	t_comp			comp;
 	int				stbl_name;
-	struct timeval	tv;
+	pthread_mutex_t	mut;
+	int				i;
 
 	stbl_name = philos->name;
 	comp = philos->compend;
-	if (comp.forks[stbl_name] && comp.forks[stbl_name - 1])
+	pthread_mutex_init(&mut, NULL);
+	i = 0;
+	while (i < comp.t_death / 100)
 	{
-		comp.forks[stbl_name] = 0;
-		comp.forks[stbl_name - 1] = 0;
-		gettimeofday(&tv, NULL);
-		printf("%ld.%ld %d got 2 forks\n", tv.tv_sec % 100, tv.tv_usec / 1000, stbl_name + 1);
+		usleep(100);
+		i++;
+		pthread_mutex_lock(&mut);
+		if (has_2_forks(comp, stbl_name) == 1)
+		{
+			i = 0;
+			is_eating(comp, stbl_name);
+			printlog(SLEEP, stbl_name);
+			usleep(comp.t_sleep);
+			printlog(THINK, stbl_name);
+		}
+		pthread_mutex_unlock(&mut);
 	}
-	usleep(comp.t_death);
-	gettimeofday(&tv, NULL);
-	printf("%ld.%ld %d has died\n", tv.tv_sec % 100, tv.tv_usec / 1000, stbl_name + 1);
-	return (NULL);
+	printlog(DIE, stbl_name);
+	exit (10); // TODO illegal I believe
+}
+
+void	is_eating(t_comp comp, int stbl_name)
+{
+	comp.forks[stbl_name] = 0;
+	printlog(FORK, stbl_name);
+	comp.forks[stbl_name - 1] = 0;
+	printlog(FORK, stbl_name); // TODO must he pick both fork individualy
+	printlog(EAT, stbl_name);
+	usleep(comp.t_eat);
+	comp.forks[stbl_name] = 1;
+	comp.forks[stbl_name - 1] = 1;
 }

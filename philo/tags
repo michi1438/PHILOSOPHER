@@ -44,11 +44,11 @@
 !_TAG_PARSER_VERSION!C++	0.0	/current.age/
 !_TAG_PARSER_VERSION!Make	0.0	/current.age/
 !_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
-!_TAG_PROC_CWD	/home/michaeltower/PHILOSOPHER/philo/	//
+!_TAG_PROC_CWD	/home/michael/PHILOSOPHER/philo/	//
 !_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
 !_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
-!_TAG_PROGRAM_VERSION	6.0.0	/95f44c56/
+!_TAG_PROGRAM_VERSION	6.0.0	/a130f268/
 !_TAG_ROLE_DESCRIPTION!C!header	local	/local header/
 !_TAG_ROLE_DESCRIPTION!C!header	system	/system header/
 !_TAG_ROLE_DESCRIPTION!C!macro	undef	/undefined/
@@ -61,22 +61,30 @@ $(NAME)	Makefile	/^$(NAME): $(OBJS)$/;"	t
 AR	Makefile	/^AR = ar rcs$/;"	m
 CC	Makefile	/^CC = gcc$/;"	m
 CFLAGS	Makefile	/^CFLAGS = -Werror -Wall -Wextra -g3$/;"	m
+DIE	head_philo.h	/^	DIE,$/;"	e	enum:e_logs
+EAT	head_philo.h	/^	EAT,$/;"	e	enum:e_logs
+FORK	head_philo.h	/^	FORK,$/;"	e	enum:e_logs
 HEAD_PHILO_H	head_philo.h	/^# define HEAD_PHILO_H$/;"	d
 NAME	Makefile	/^NAME = philo$/;"	m
 OBJS	Makefile	/^OBJS = $(SOURCES:c=o)$/;"	m
+SLEEP	head_philo.h	/^	SLEEP,$/;"	e	enum:e_logs
 SOURCES	Makefile	/^SOURCES = $(addprefix src\/, $(SRC))$/;"	m
-SRC	Makefile	/^SRC = philo_main.c philo_init.c philo_atoi.c philo_invok.c $/;"	m
+SRC	Makefile	/^SRC = philo_main.c philo_init.c philo_atoi.c philo_invok.c philo_utils.c$/;"	m
+THINK	head_philo.h	/^	THINK,$/;"	e	enum:e_logs
 all	Makefile	/^all: $(NAME)$/;"	t
 clean	Makefile	/^clean:$/;"	t
 compend	head_philo.h	/^	t_comp		compend;$/;"	m	struct:s_philos	typeref:typename:t_comp
 create_philos	src/philo_invok.c	/^void	create_philos(t_philos *philos)$/;"	f	typeref:typename:void
+e_logs	head_philo.h	/^enum e_logs$/;"	g
 fclean	Makefile	/^fclean: clean$/;"	t
 forks	head_philo.h	/^	int		*forks;$/;"	m	struct:s_comp	typeref:typename:int *
 ft_atoi	src/philo_atoi.c	/^int	ft_atoi(const char *num)$/;"	f	typeref:typename:int
+has_2_forks	src/philo_utils.c	/^int	has_2_forks(t_comp comp, int stbl_name)$/;"	f	typeref:typename:int
 hello	src/philo_invok.c	/^void	*hello(t_philos *philos)$/;"	f	typeref:typename:void *
 init_args	src/philo_init.c	/^int	init_args(int ac, char **av, t_comp *compend)$/;"	f	typeref:typename:int
 init_forks	src/philo_init.c	/^void	init_forks(t_comp *compend)$/;"	f	typeref:typename:void
 init_philos	src/philo_invok.c	/^void	init_philos(t_philos *philos, int i)$/;"	f	typeref:typename:void
+is_eating	src/philo_invok.c	/^void	is_eating(t_comp comp, int stbl_name)$/;"	f	typeref:typename:void
 is_unsigned_int	src/philo_init.c	/^int	is_unsigned_int(char **av, int ac)$/;"	f	typeref:typename:int
 main	src/philo_main.c	/^int	main(int ac, char **av)$/;"	f	typeref:typename:int
 n_cycles	head_philo.h	/^	int		n_cycles;$/;"	m	struct:s_comp	typeref:typename:int
@@ -84,6 +92,7 @@ n_philo	head_philo.h	/^	int		n_philo;$/;"	m	struct:s_comp	typeref:typename:int
 name	head_philo.h	/^	int			name;$/;"	m	struct:s_philos	typeref:typename:int
 num_len	src/philo_atoi.c	/^int	num_len(char const *num)$/;"	f	typeref:typename:int
 print_compend	src/philo_main.c	/^void	print_compend(t_comp *compend)$/;"	f	typeref:typename:void
+printlog	src/philo_utils.c	/^void	printlog(int log_type, int name)$/;"	f	typeref:typename:void
 re	Makefile	/^re: fclean all$/;"	t
 s_comp	head_philo.h	/^typedef struct s_comp$/;"	s
 s_philos	head_philo.h	/^typedef struct s_philos$/;"	s
