@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/10 09:45:32 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/12 09:42:09 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ typedef struct s_comp
 {
 	int		n_cycles;
 	int		n_philo;
-	int		n_forks;
 	int		t_death;
 	int		t_eat;
 	int		t_sleep;
+	int		*forks;
 }	t_comp;
 
 typedef struct s_philos
@@ -44,6 +44,7 @@ void	print_compend(t_comp *compend);
 //PHILO_INIT.C
 int		init_args(int ac, char **av, t_comp *compend);
 int		is_unsigned_int(char **av, int ac);
+void	init_forks(t_comp *compend);
 
 //PHILO_INVOK.C
 void	create_philos(t_philos *philos);

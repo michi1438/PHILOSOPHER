@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/10 09:16:25 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/12 09:52:52 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ void	create_philos(t_philos *philos)
 	t_comp	comp;
 
 	comp = philos->compend;
-	philos->thread = malloc(sizeof(int) * comp.n_philo);
-	i = 1;
-	while (i <= comp.n_philo)
+	philos->thread = malloc(sizeof(int) * comp.n_philo + 1);
+	i = 0;
+	while (i < comp.n_philo)
 	{
 		usleep(100);
 		init_philos(philos, i);
 		i++;
 	}
-	i = 1;
-	while (i <= comp.n_philo)
+	i = 0;
+	while (i < comp.n_philo)
 	{
 		usleep(100);
 		pthread_join(philos->thread[i], NULL);
@@ -50,9 +50,15 @@ void	*hello(t_philos *philos)
 
 	stbl_name = philos->name;
 	comp = philos->compend;
-	gettimeofday(&tv, NULL);
-	printf("%ld.%ld %d has taken a fork\n", tv.tv_sec % 100, tv.tv_usec / 1000, stbl_name);
+	if (comp.forks[stbl_name] && comp.forks[stbl_name - 1])
+	{
+		comp.forks[stbl_name] = 0;
+		comp.forks[stbl_name - 1] = 0;
+		gettimeofday(&tv, NULL);
+		printf("%ld.%ld %d got 2 forks\n", tv.tv_sec % 100, tv.tv_usec / 1000, stbl_name + 1);
+	}
 	usleep(comp.t_death);
-	printf("philo %d has died\n", stbl_name);
+	gettimeofday(&tv, NULL);
+	printf("%ld.%ld %d has died\n", tv.tv_sec % 100, tv.tv_usec / 1000, stbl_name + 1);
 	return (NULL);
 }
