@@ -60,7 +60,8 @@
 $(NAME)	Makefile	/^$(NAME): $(OBJS)$/;"	t
 AR	Makefile	/^AR = ar rcs$/;"	m
 CC	Makefile	/^CC = gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS = -Werror -Wall -Wextra -g3$/;"	m
+CFLAGS	Makefile	/^CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=thread$/;"	m
+CREATE	head_philo.h	/^	CREATE,$/;"	e	enum:e_logs
 DIE	head_philo.h	/^	DIE,$/;"	e	enum:e_logs
 EAT	head_philo.h	/^	EAT,$/;"	e	enum:e_logs
 FORK	head_philo.h	/^	FORK,$/;"	e	enum:e_logs

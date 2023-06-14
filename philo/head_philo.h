@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/13 12:04:51 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/14 10:32:02 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ enum e_logs
 	SLEEP,
 	THINK,
 	DIE,
+	CREATE,
 };
 
 //FOR_TESTING.C

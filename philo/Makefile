@@ -6,7 +6,7 @@
 #    By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/04 19:47:35 by mguerga           #+#    #+#              #
-#    Updated: 2023/06/13 10:07:03 by mguerga          ###   ########.fr        #
+#    Updated: 2023/06/14 10:07:45 by mguerga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -g3
+CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=thread
 
 SRC = philo_main.c philo_init.c philo_atoi.c philo_invok.c philo_utils.c
 

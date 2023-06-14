@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/13 11:46:40 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/14 09:40:40 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	printlog(int log_type, int name)
 		printf("%02ld.%03ld %d is thinking\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 	else if (log_type == DIE)
 		printf("%02ld.%03ld %d died\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
+	else if (log_type == CREATE)
+		printf("%02ld.%03ld %d CREATED\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 }
 
 int	has_2_forks(t_comp comp, int stbl_name)
@@ -37,7 +39,7 @@ int	has_2_forks(t_comp comp, int stbl_name)
 		f_num = comp.n_philo - 1;
 	else
 		f_num = stbl_name - 1;
-	if (comp.forks[stbl_name] && comp.forks[f_num])
+	if (comp.n_philo > 1 && comp.forks[stbl_name] && comp.forks[f_num])
 		return (1);
 	return (0);
 }
