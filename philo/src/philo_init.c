@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/12 09:43:38 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/19 12:00:25 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ int	init_args(int ac, char **av, t_comp *compend)
 	{
 		compend->n_philo = ft_atoi(av[1]);
 		init_forks(compend);
-		compend->t_death = ft_atoi(av[2]) * 1000;
-		compend->t_eat = ft_atoi(av[3]) * 1000;
-		compend->t_sleep = ft_atoi(av[4]) * 1000;
+		compend->t_death = ft_atoi(av[2]);
+		compend->t_eat = ft_atoi(av[3]);
+		compend->t_sleep = ft_atoi(av[4]);
 		return (0);
 	}		
 	else

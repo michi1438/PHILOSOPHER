@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/19 11:52:00 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/19 13:59:17 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	*hello(t_philos *philos)
 	pthread_mutex_unlock(&philos->name_mutex);
 	comp = philos->compend;
 	i = 0;
-	while (i < (comp.t_death) / 1000)
+	while (i < (comp.t_death) / 7)
 	{
 		if (has_2_forks(philos, comp, stbl_name) == 1)
 		{
@@ -60,10 +60,10 @@ void	*hello(t_philos *philos)
 			printlog(SLEEP, stbl_name);
 			sleep_timer(philos, comp, stbl_name);
 			printlog(THINK, stbl_name);
-			i = (comp.t_eat + comp.t_sleep) / 1000;
+			i = (comp.t_eat + comp.t_sleep);
 		}
 		i++;
-		usleep(1000);
+		usleep_wrapper();
 	}
 	printlog(DIE, stbl_name);
 	pthread_detach(philos->thread[i]);
@@ -98,14 +98,14 @@ void	eat_timer(t_philos *philos, t_comp comp, int stbl_name)
 	int	i;
 
 	i = 0;
-	while (i < comp.t_eat / 1000)
+	while (i < comp.t_eat / 7)
 	{
-		if (i >= comp.t_death / 1000)
+		if (i >= comp.t_death / 7)
 		{
 			printlog(DIE, stbl_name);
 			pthread_detach(philos->thread[i]);
 		}
-		usleep(1000);
+		usleep_wrapper();
 		i++;
 	}
 }
@@ -114,16 +114,38 @@ void	sleep_timer(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int	i;
 
-	i = comp.t_eat / 1000;
-	while (i < (comp.t_sleep + comp.t_eat) / 1000)
+	i = comp.t_eat / 7;
+	while (i < (comp.t_sleep + comp.t_eat) / 7)
 	{
-		if (i >= comp.t_death / 1000)
+		if (i >= comp.t_death / 7)
 		{
 			printlog(DIE, stbl_name);
 			pthread_detach(philos->thread[i]);
 		}
-		usleep(1000);
+		usleep_wrapper();
 		i++;
 	}
 }
-	
+
+void	usleep_wrapper(void)
+{
+	struct timeval	tv_bef;
+	struct timeval	tv_aft;
+	pthread_mutex_t	wrap_mut;
+	static int		sleep_val;
+
+	pthread_mutex_init(&wrap_mut, NULL);
+	pthread_mutex_lock(&wrap_mut);
+	if (sleep_val <= 0 || sleep_val > 7000)
+		sleep_val = 7000;
+	pthread_mutex_unlock(&wrap_mut);
+	gettimeofday(&tv_bef, NULL);
+	pthread_mutex_lock(&wrap_mut);
+	usleep(sleep_val);
+	pthread_mutex_unlock(&wrap_mut);
+	gettimeofday(&tv_aft, NULL);
+	pthread_mutex_lock(&wrap_mut);
+	if (tv_bef.tv_usec <= tv_aft.tv_usec)
+		sleep_val = 7000 - (tv_aft.tv_usec - tv_bef.tv_usec - 7000);
+	pthread_mutex_unlock(&wrap_mut);
+}
