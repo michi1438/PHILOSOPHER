@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/14 09:40:40 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/15 17:25:29 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,15 @@ void	printlog(int log_type, int name)
 	else if (log_type == THINK)
 		printf("%02ld.%03ld %d is thinking\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 	else if (log_type == DIE)
+	{
 		printf("%02ld.%03ld %d died\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
+		exit (10); // TODO illegal I believe
+	}
 	else if (log_type == CREATE)
 		printf("%02ld.%03ld %d CREATED\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 }
 
-int	has_2_forks(t_comp comp, int stbl_name)
+int	has_2_forks(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int	f_num;
 
@@ -39,7 +42,12 @@ int	has_2_forks(t_comp comp, int stbl_name)
 		f_num = comp.n_philo - 1;
 	else
 		f_num = stbl_name - 1;
+	pthread_mutex_lock(&philos->name_mutex);
 	if (comp.n_philo > 1 && comp.forks[stbl_name] && comp.forks[f_num])
+	{
+		pthread_mutex_unlock(&philos->name_mutex);
 		return (1);
+	}
+	pthread_mutex_unlock(&philos->name_mutex);
 	return (0);
 }
