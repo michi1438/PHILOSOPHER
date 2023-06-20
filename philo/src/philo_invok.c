@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/20 09:21:09 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/20 10:59:34 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ void	*hello(t_philos *philos)
 	int				stbl_cycles;
 	static int		enm;
 	int				i;
+	int				t;
 
+	t = 7000;
 	pthread_mutex_lock(&philos->name_mutex);
 	printlog(CREATE, enm);
 	stbl_name = enm++;
@@ -54,10 +56,8 @@ void	*hello(t_philos *philos)
 	comp = philos->compend;
 	stbl_cycles = comp.n_cycles;
 	i = 0;
-	while (i < (comp.t_death) / 7 && stbl_cycles != 0)
+	while (i <= (comp.t_death) / 7 && stbl_cycles != 0)
 	{
-		i++;
-		usleep_wrapper();
 		if (has_2_forks(philos, comp, stbl_name) == 1)
 		{
 			stbl_cycles--;
@@ -65,8 +65,10 @@ void	*hello(t_philos *philos)
 			printlog(SLEEP, stbl_name);
 			sleep_timer(philos, comp, stbl_name);
 			printlog(THINK, stbl_name);
-			i = (comp.t_eat + comp.t_sleep) / 7;
+			i = (comp.t_eat / 7 + comp.t_sleep / 7);
 		}
+		i++;
+		usleep_wrapper(&t); // TODO try and replace with normal usleep(1000);
 	}
 	if (stbl_cycles != 0)
 		printlog(DIE, stbl_name);
@@ -99,8 +101,10 @@ void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
 void	eat_timer(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int	i;
+	int	t;
 
 	i = 0;
+	t = 7000;
 	while (i < comp.t_eat / 7)
 	{
 		if (i >= comp.t_death / 7)
@@ -108,7 +112,7 @@ void	eat_timer(t_philos *philos, t_comp comp, int stbl_name)
 			printlog(DIE, stbl_name);
 			pthread_detach(philos->thread[i]);
 		}
-		usleep_wrapper();
+		usleep_wrapper(&t);
 		i++;
 	}
 }
@@ -116,39 +120,40 @@ void	eat_timer(t_philos *philos, t_comp comp, int stbl_name)
 void	sleep_timer(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int	i;
+	int	t;
 
+	t = 7000;
 	i = comp.t_eat / 7;
-	while (i < (comp.t_sleep + comp.t_eat) / 7)
+	while (i < (comp.t_sleep / 7+ comp.t_eat / 7))
 	{
 		if (i >= comp.t_death / 7)
 		{
 			printlog(DIE, stbl_name);
 			pthread_detach(philos->thread[i]);
 		}
-		usleep_wrapper();
+		usleep_wrapper(&t);
 		i++;
 	}
 }
 
-void	usleep_wrapper(void)
+void	usleep_wrapper(int *t)
 {
 	struct timeval	tv_bef;
 	struct timeval	tv_aft;
 	pthread_mutex_t	wrap_mut;
-	static int		sleep_val;
 
 	pthread_mutex_init(&wrap_mut, NULL);
 	pthread_mutex_lock(&wrap_mut);
-	if (sleep_val <= 0 || sleep_val > 7000)
-		sleep_val = 7000;
+	if (*t <= 0 || *t > 7000)
+		*t = 7000;
 	pthread_mutex_unlock(&wrap_mut);
 	gettimeofday(&tv_bef, NULL);
 	pthread_mutex_lock(&wrap_mut);
-	usleep(sleep_val);
+	usleep(*t);
 	pthread_mutex_unlock(&wrap_mut);
 	gettimeofday(&tv_aft, NULL);
 	pthread_mutex_lock(&wrap_mut);
 	if (tv_bef.tv_usec <= tv_aft.tv_usec)
-		sleep_val = 7000 - (tv_aft.tv_usec - tv_bef.tv_usec - 7000);
+		*t = 7000 - (tv_aft.tv_usec - tv_bef.tv_usec - 7000);
 	pthread_mutex_unlock(&wrap_mut);
 }

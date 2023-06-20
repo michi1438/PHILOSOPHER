@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/19 13:50:04 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/20 10:48:57 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	print_compend(t_comp *compend);
 //PHILO_UTILS.C
 void	printlog(int log_type, int name);
 int		has_2_forks(t_philos *philos, t_comp comp, int stbl_name);
-void	usleep_wrapper(void);
+void	usleep_wrapper(int *t);
 
 //PHILO_INIT.C
 int		init_args(int ac, char **av, t_comp *compend);
