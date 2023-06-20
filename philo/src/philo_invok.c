@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/19 13:59:17 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/20 09:21:09 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	*hello(t_philos *philos)
 {
 	t_comp			comp;
 	int				stbl_name;
+	int				stbl_cycles;
 	static int		enm;
 	int				i;
 
@@ -51,24 +52,26 @@ void	*hello(t_philos *philos)
 	stbl_name = enm++;
 	pthread_mutex_unlock(&philos->name_mutex);
 	comp = philos->compend;
+	stbl_cycles = comp.n_cycles;
 	i = 0;
-	while (i < (comp.t_death) / 7)
+	while (i < (comp.t_death) / 7 && stbl_cycles != 0)
 	{
+		i++;
+		usleep_wrapper();
 		if (has_2_forks(philos, comp, stbl_name) == 1)
 		{
+			stbl_cycles--;
 			is_eating(philos, comp, stbl_name);
 			printlog(SLEEP, stbl_name);
 			sleep_timer(philos, comp, stbl_name);
 			printlog(THINK, stbl_name);
-			i = (comp.t_eat + comp.t_sleep);
+			i = (comp.t_eat + comp.t_sleep) / 7;
 		}
-		i++;
-		usleep_wrapper();
 	}
-	printlog(DIE, stbl_name);
-	pthread_detach(philos->thread[i]);
+	if (stbl_cycles != 0)
+		printlog(DIE, stbl_name);
+	pthread_detach(philos->thread[stbl_name]);
 	return (NULL);
-//	exit (10); // TODO illegal I believe
 }
 
 void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
