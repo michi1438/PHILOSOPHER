@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/15 17:25:29 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/21 11:43:35 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ void	printlog(int log_type, int name)
 
 	gettimeofday(&tv, NULL);
 	if (log_type == FORK)
+	{
 		printf("%02ld.%03ld %d has taken a fork\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
-	else if (log_type == EAT)
+		printf("%02ld.%03ld %d has taken a fork\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 		printf("%02ld.%03ld %d is eating\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
+	}
 	else if (log_type == SLEEP)
 		printf("%02ld.%03ld %d is sleeping\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 	else if (log_type == THINK)
