@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/21 15:13:32 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/21 20:23:15 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,13 @@ int	is_unsigned_int(char **av, int ac)
 
 void	init_forks(t_comp *compend)
 {
-	char	fork_ini[compend->n_philo];
+	int	i;
 
-	compend->forks = memset(fork_ini, 1, compend->n_philo);
+	i = 0;
+	compend->forks = malloc(sizeof(char) * compend->n_philo);
+	while (i < compend->n_philo)
+	{
+		compend->forks[i] = 1;
+		i++;
+	}
 }
