@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/21 10:54:51 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:34:10 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define HEAD_PHILO_H
 
 # include <stdio.h>
+# include <string.h>
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
@@ -26,13 +27,14 @@ typedef struct s_comp
 	int		t_death;
 	int		t_eat;
 	int		t_sleep;
-	int		*forks;
+	char	*forks;
 }	t_comp;
 
 typedef struct s_philos
 {
 	int				name;
 	pthread_mutex_t	name_mutex;
+	pthread_mutex_t	fork_mutex;
 	t_comp			compend;
 	pthread_t		*thread;
 }	t_philos;

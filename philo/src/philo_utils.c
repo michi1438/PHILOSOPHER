@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/21 11:43:35 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/21 19:33:25 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,12 @@ int	has_2_forks(t_philos *philos, t_comp comp, int stbl_name)
 		f_num = comp.n_philo - 1;
 	else
 		f_num = stbl_name - 1;
-	pthread_mutex_lock(&philos->name_mutex);
+	pthread_mutex_lock(&philos->fork_mutex);
 	if (comp.n_philo > 1 && comp.forks[stbl_name] && comp.forks[f_num])
 	{
-		pthread_mutex_unlock(&philos->name_mutex);
+		pthread_mutex_unlock(&philos->fork_mutex);
 		return (1);
 	}
-	pthread_mutex_unlock(&philos->name_mutex);
+	pthread_mutex_unlock(&philos->fork_mutex);
 	return (0);
 }
