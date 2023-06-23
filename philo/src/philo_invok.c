@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/21 19:56:23 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/23 17:41:01 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,16 @@
 
 void	create_philos(t_philos *philos)
 {
-	int		i;
-	t_comp	comp;
+	int				i;
+	t_comp			comp;
+	int				is_not_dead;
+	struct timeval	tv_act;
 
 	comp = philos->compend;
 	philos->thread = malloc(sizeof(int) * comp.n_philo + 1);
 	pthread_mutex_init(&philos->name_mutex, NULL);
 	pthread_mutex_init(&philos->fork_mutex, NULL);
+	is_not_dead = 1;
 	i = 0;
 	while (i < comp.n_philo)
 	{
@@ -28,10 +31,19 @@ void	create_philos(t_philos *philos)
 		i++;
 	}
 	i = 0;
-	while (i < comp.n_philo)
+	while (is_not_dead == 1)
 	{
-		pthread_join(philos->thread[i], NULL);
-		i++;
+		while (i < comp.n_philo)
+		{
+			gettimeofday(&tv_act, NULL);
+			if ((tv_act.tv_usec - comp.tv_has_eaten[i]) / 1000 >= comp.t_death)
+			{
+				printlog(DIE, i);
+				return ;
+			}
+			i++;
+		}
+		i = 0;
 	}
 }
 
@@ -46,33 +58,25 @@ void	*hello(t_philos *philos)
 	int				stbl_name;
 	int				stbl_cycles;
 	static int		enm;
-	struct timeval	tv_bef;
-	int				i;
-	int				t;
+	struct timeval	tv_buf;
 
-	t = 1000;
 	pthread_mutex_lock(&philos->name_mutex);
-	printlog(CREATE, enm);
 	stbl_name = enm++;
+	printlog(CREATE, stbl_name);
 	pthread_mutex_unlock(&philos->name_mutex);
 	comp = philos->compend;
+	gettimeofday(&tv_buf, NULL);
+	comp.tv_has_eaten[stbl_name] = tv_buf.tv_usec;
 	stbl_cycles = comp.n_cycles;
-	i = 0;
-	while (i <= (comp.t_death) + 1 && stbl_cycles != 0)
+	while (stbl_cycles != 0)
 	{
 		if (has_2_forks(philos, comp, stbl_name) == 1)
 		{
-			stbl_cycles--;
+			if (stbl_cycles != -1)
+				stbl_cycles--;
 			is_eating(philos, comp, stbl_name);
-			sleep_timer(philos, comp, stbl_name);
-			i = (comp.t_eat + comp.t_sleep);
 		}
-		gettimeofday(&tv_bef, NULL);
-		i++;
-		usleep_wrapper(tv_bef, &t);
 	}
-	if (stbl_cycles != 0)
-		printlog(DIE, stbl_name);
 	pthread_detach(philos->thread[stbl_name]);
 	return (NULL);
 }
@@ -80,6 +84,7 @@ void	*hello(t_philos *philos)
 void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int				f_num;
+	struct timeval	tv_buf;
 
 	if (stbl_name == 0)
 		f_num = comp.n_philo - 1;
@@ -90,53 +95,54 @@ void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
 	comp.forks[f_num] = 0;
 	pthread_mutex_unlock(&philos->fork_mutex);
 	printlog(FORK, stbl_name);
-	eat_timer(philos, comp, stbl_name);
+	gettimeofday(&tv_buf, NULL);
+	comp.tv_has_eaten[stbl_name] = tv_buf.tv_usec;
+	eat_timer(comp);
 	pthread_mutex_lock(&philos->fork_mutex);
 	comp.forks[stbl_name] = 1;
 	comp.forks[f_num] = 1;
 	pthread_mutex_unlock(&philos->fork_mutex);
-	printlog(SLEEP, stbl_name);
+	sleep_timer(comp, stbl_name);
 }
 
-void	eat_timer(t_philos *philos, t_comp comp, int stbl_name)
+void	eat_timer(t_comp comp)
 {
-	int				i;
-	int				t;
 	struct timeval	tv_bef;
+	struct timeval	tv_aft;
+	long unsigned	bef;
+	long unsigned	aft;
 
-	i = 0;
-	t = 1000;
-	while (i < comp.t_eat)
+	gettimeofday(&tv_bef, NULL);
+	bef = tv_bef.tv_sec * 1000 + tv_bef.tv_usec / 1000;
+	gettimeofday(&tv_aft, NULL);
+	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
+	while (aft - bef <= (long unsigned)comp.t_eat)
 	{
-		gettimeofday(&tv_bef, NULL);
-		if (i > comp.t_death)
-		{
-			printlog(DIE, stbl_name);
-			pthread_detach(philos->thread[i]);
-		}
-		usleep_wrapper(tv_bef, &t);
-		i++;
+		//printf("diff = %ld\n", tv_aft.tv_usec - tv_bef.tv_usec);
+		gettimeofday(&tv_aft, NULL);
+		aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
+		usleep(1000);
 	}
 }
 
-void	sleep_timer(t_philos *philos, t_comp comp, int stbl_name)
+void	sleep_timer(t_comp comp, int stbl_name)
 {
-	int				i;
-	int				t;
 	struct timeval	tv_bef;
+	struct timeval	tv_aft;
+	long unsigned	bef;
+	long unsigned	aft;
 
-	t = 1000;
-	i = comp.t_eat;
-	while (i < (comp.t_sleep + comp.t_eat))
+	printlog(SLEEP, stbl_name);
+	gettimeofday(&tv_bef, NULL);
+	bef = tv_bef.tv_sec * 1000 + tv_bef.tv_usec / 1000;
+	gettimeofday(&tv_aft, NULL);
+	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
+	while (aft - bef <= (long unsigned)comp.t_sleep)
 	{
-		gettimeofday(&tv_bef, NULL);
-		if (i > comp.t_death)
-		{
-			printlog(DIE, stbl_name);
-			pthread_detach(philos->thread[i]);
-		}
-		usleep_wrapper(tv_bef, &t);
-		i++;
+		//printf("diff = %ld\n", tv_aft.tv_usec - tv_bef.tv_usec);
+		gettimeofday(&tv_aft, NULL);
+		aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
+		usleep(1000);
 	}
 	printlog(THINK, stbl_name);
 }
