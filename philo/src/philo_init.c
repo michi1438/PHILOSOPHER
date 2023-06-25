@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/23 16:52:59 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 10:58:54 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,5 @@ void	init_tv_has_eaten(t_comp *compend)
 		compend->tv_has_eaten[i] = tv_buf->tv_usec;
 		i++;
 	}
-	free(tv_buf);
+	//free(tv_buf);
 }

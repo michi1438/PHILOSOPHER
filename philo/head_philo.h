@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/23 16:46:53 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 12:14:16 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ typedef struct s_comp
 	int				t_eat;
 	int				t_sleep;
 	char			*forks;
-	long int		*tv_has_eaten;	
+	unsigned int	*tv_has_eaten;	
 }	t_comp;
 
 typedef struct s_philos
 {
-	pthread_mutex_t	name_mutex;
 	pthread_mutex_t	fork_mutex;
+	pthread_mutex_t	name_mutex;
 	t_comp			compend;
 	pthread_t		*thread;
 }	t_philos;

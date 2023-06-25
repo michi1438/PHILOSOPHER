@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/21 19:33:25 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 12:00:50 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	printlog(int log_type, int name)
 	else if (log_type == DIE)
 	{
 		printf("%02ld.%03ld %d died\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
-		exit (10); // TODO illegal I believe
 	}
 	else if (log_type == CREATE)
 		printf("%02ld.%03ld %d CREATED\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
@@ -38,7 +37,7 @@ void	printlog(int log_type, int name)
 
 int	has_2_forks(t_philos *philos, t_comp comp, int stbl_name)
 {
-	int	f_num;
+	int				f_num;
 
 	if (stbl_name == 0)
 		f_num = comp.n_philo - 1;
