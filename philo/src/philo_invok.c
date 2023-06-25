@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/25 22:15:20 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 22:41:50 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	create_philos(t_philos *philos)
 	struct timeval	tv_act;
 
 	comp = philos->compend;
-	philos->thread = malloc(sizeof(int) * comp.n_philo);
+	philos->thread = malloc(sizeof(pthread_t) * comp.n_philo);
 	pthread_mutex_init(&philos->fork_mutex, NULL);
 	pthread_mutex_init(&philos->name_mutex, NULL);
 	pthread_mutex_init(&philos->eaten_mutex, NULL);
@@ -32,18 +32,17 @@ void	create_philos(t_philos *philos)
 	i = 0;
 	while (1)
 	{
-	
 		pthread_mutex_lock(&philos->fork_mutex);
 		if (comp.forks[0] == 2)
 		{
+			pthread_mutex_unlock(&philos->fork_mutex);
 			i = 0;
 			while (i < comp.n_philo)
 			{
 				pthread_join(philos->thread[i], NULL);
 				pthread_detach(philos->thread[i++]);
-				printf("passed\n");
+				//printf("passed\n");
 			}
-			pthread_mutex_unlock(&philos->fork_mutex);
 			return ;
 		}
 		pthread_mutex_unlock(&philos->fork_mutex);
@@ -63,7 +62,7 @@ void	create_philos(t_philos *philos)
 				{
 					pthread_join(philos->thread[i], NULL);
 					pthread_detach(philos->thread[i++]);
-					printf("passed\n");
+					//printf("passed\n");
 				}
 				return ;
 			}
@@ -107,9 +106,7 @@ void	*hello(t_philos *philos)
 				return (NULL);
 		}
 	}
-	if (stbl_name != 0)
-		pthread_join(philos->thread[stbl_name - 1], NULL);
-	else if (stbl_cycles == 0)
+	if (stbl_cycles == 0)
 	{
 		pthread_mutex_lock(&philos->fork_mutex);
 		comp.forks[0] = 2;	
