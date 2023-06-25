@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/25 12:14:16 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 22:09:32 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ typedef struct s_philos
 {
 	pthread_mutex_t	fork_mutex;
 	pthread_mutex_t	name_mutex;
+	pthread_mutex_t	eaten_mutex;
 	t_comp			compend;
 	pthread_t		*thread;
 }	t_philos;
@@ -57,7 +58,7 @@ void	print_compend(t_comp *compend);
 //PHILO_UTILS.C
 void	printlog(int log_type, int name);
 int		has_2_forks(t_philos *philos, t_comp comp, int stbl_name);
-void	usleep_wrapper(struct timeval tv_bef, int *t);
+int		catch_me(t_philos *philos, t_comp comp);
 
 //PHILO_INIT.C
 int		init_args(int ac, char **av, t_comp *compend);
@@ -69,9 +70,10 @@ void	init_tv_has_eaten(t_comp *compend);
 void	create_philos(t_philos *philos);
 void	init_philos(t_philos *philos, int i);
 void	*hello(t_philos *ptr);
-void	is_eating(t_philos *philos, t_comp comp, int stbl_name);
-void	eat_timer(t_comp comp);
-void	sleep_timer(t_comp comp, int stbl_name);
+int		is_eating(t_philos *philos, t_comp comp, int stbl_name);
+int		eat_timer(t_philos *philos, int stbl_name, t_comp comp);
+int		sleep_timer(t_philos *philos, t_comp comp, int stbl_name);
+void	catch_me_now_im_fallin(t_comp comp);
 
 //PHILO_atoi.c
 int		ft_atoi(const char *num);

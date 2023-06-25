@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/25 12:15:51 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/25 22:15:20 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	create_philos(t_philos *philos)
 	struct timeval	tv_act;
 
 	comp = philos->compend;
-	philos->thread = malloc(sizeof(int) * comp.n_philo + 1);
+	philos->thread = malloc(sizeof(int) * comp.n_philo);
 	pthread_mutex_init(&philos->fork_mutex, NULL);
 	pthread_mutex_init(&philos->name_mutex, NULL);
+	pthread_mutex_init(&philos->eaten_mutex, NULL);
 	i = 0;
 	while (i < comp.n_philo)
 	{
@@ -35,6 +36,13 @@ void	create_philos(t_philos *philos)
 		pthread_mutex_lock(&philos->fork_mutex);
 		if (comp.forks[0] == 2)
 		{
+			i = 0;
+			while (i < comp.n_philo)
+			{
+				pthread_join(philos->thread[i], NULL);
+				pthread_detach(philos->thread[i++]);
+				printf("passed\n");
+			}
 			pthread_mutex_unlock(&philos->fork_mutex);
 			return ;
 		}
@@ -42,14 +50,24 @@ void	create_philos(t_philos *philos)
 		while (i < comp.n_philo)
 		{
 			gettimeofday(&tv_act, NULL);
+			pthread_mutex_lock(&philos->eaten_mutex);
 			if ((tv_act.tv_usec - comp.tv_has_eaten[i]) / 1000 >= comp.t_death)
 			{
+				pthread_mutex_unlock(&philos->eaten_mutex);
+				pthread_mutex_lock(&philos->fork_mutex);
+				comp.forks[0] = 2;
+				pthread_mutex_unlock(&philos->fork_mutex);
 				printlog(DIE, i);
 				i = 0;
 				while (i < comp.n_philo)
+				{
+					pthread_join(philos->thread[i], NULL);
 					pthread_detach(philos->thread[i++]);
+					printf("passed\n");
+				}
 				return ;
 			}
+			pthread_mutex_unlock(&philos->eaten_mutex);
 			i++;
 		}
 		i = 0;
@@ -71,26 +89,48 @@ void	*hello(t_philos *philos)
 	pthread_mutex_unlock(&philos->name_mutex);
 	comp = philos->compend;
 	gettimeofday(&tv_buf, NULL);
+	pthread_mutex_lock(&philos->eaten_mutex);
 	comp.tv_has_eaten[stbl_name] = tv_buf.tv_usec;
+	pthread_mutex_unlock(&philos->eaten_mutex);
 	stbl_cycles = comp.n_cycles;
 	while (stbl_cycles != 0)
 	{
+		if (catch_me(philos, comp) == 1)
+			return (NULL);
 		if (has_2_forks(philos, comp, stbl_name) == 1)
 		{
 			if (stbl_cycles != -1)
 				stbl_cycles--;
-			is_eating(philos, comp, stbl_name);
-			sleep_timer(comp, stbl_name);
+			if (is_eating(philos, comp, stbl_name) == 1)
+				return (NULL);
+			if (sleep_timer(philos, comp, stbl_name) == 1)
+				return (NULL);
 		}
 	}
 	if (stbl_name != 0)
 		pthread_join(philos->thread[stbl_name - 1], NULL);
 	else if (stbl_cycles == 0)
+	{
+		pthread_mutex_lock(&philos->fork_mutex);
 		comp.forks[0] = 2;	
+		pthread_mutex_unlock(&philos->fork_mutex);
+	}
 	return (NULL);
 }
 
-void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
+int catch_me(t_philos *philos, t_comp comp)
+{
+	pthread_mutex_lock(&philos->fork_mutex);
+	if (comp.forks[0] == 2)
+	{
+		pthread_mutex_unlock(&philos->fork_mutex);
+		return (1);
+	}
+	pthread_mutex_unlock(&philos->fork_mutex);
+	return (0);
+}
+
+int	is_eating(t_philos *philos, t_comp comp, int stbl_name)
 {
 	int				f_num;
 	struct timeval	tv_buf;
@@ -105,16 +145,20 @@ void	is_eating(t_philos *philos, t_comp comp, int stbl_name)
 	pthread_mutex_unlock(&philos->fork_mutex);
 	printlog(FORK, stbl_name);
 	gettimeofday(&tv_buf, NULL);
+	pthread_mutex_lock(&philos->eaten_mutex);
 	comp.tv_has_eaten[stbl_name] = tv_buf.tv_usec;
-	eat_timer(comp);
+	pthread_mutex_unlock(&philos->eaten_mutex);
+	if (eat_timer(philos, stbl_name, comp) == 1)
+		return (1);
 	printlog(SLEEP, stbl_name);
 	pthread_mutex_lock(&philos->fork_mutex);
 	comp.forks[stbl_name] = 1;
 	comp.forks[f_num] = 1;
 	pthread_mutex_unlock(&philos->fork_mutex);
+	return (0);
 }
 
-void	eat_timer(t_comp comp)
+int	eat_timer(t_philos *philos, int stbl_name, t_comp comp)
 {
 	struct timeval	tv_bef;
 	struct timeval	tv_aft;
@@ -127,14 +171,18 @@ void	eat_timer(t_comp comp)
 	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
 	while (aft - bef <= (long unsigned)comp.t_eat)
 	{
-		//printf("diff = %ld\n", tv_aft.tv_usec - tv_bef.tv_usec);
+		if (catch_me(philos, comp) == 1)
+			return (1);
 		gettimeofday(&tv_aft, NULL);
+		if ((tv_aft.tv_usec - comp.tv_has_eaten[stbl_name]) / 1000 >= comp.t_death && stbl_name != 0)
+			pthread_join(philos->thread[stbl_name - 1], NULL);
 		aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
 		usleep(1000);
 	}
+	return (0);
 }
 
-void	sleep_timer(t_comp comp, int stbl_name)
+int	sleep_timer(t_philos *philos, t_comp comp, int stbl_name)
 {
 	struct timeval	tv_bef;
 	struct timeval	tv_aft;
@@ -147,24 +195,14 @@ void	sleep_timer(t_comp comp, int stbl_name)
 	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
 	while (aft - bef <= (long unsigned)comp.t_sleep)
 	{
-		//printf("diff = %ld\n", tv_aft.tv_usec - tv_bef.tv_usec);
+		if (catch_me(philos, comp) == 1)
+			return (1);
 		gettimeofday(&tv_aft, NULL);
+		if ((tv_aft.tv_usec - comp.tv_has_eaten[stbl_name]) / 1000 >= comp.t_death && stbl_name != 0)
+			pthread_join(philos->thread[stbl_name - 1], NULL);
 		aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
 		usleep(1000);
 	}
 	printlog(THINK, stbl_name);
-}
-
-void	usleep_wrapper(struct timeval tv_bef, int *t)
-{
-	struct timeval	tv_aft;
-
-	if (*t > 1000)
-		*t = 1000;
-	if (*t < 1)
-		*t = 1;
-	usleep(*t);
-	gettimeofday(&tv_aft, NULL);
-	if (tv_bef.tv_usec <= tv_aft.tv_usec)
-		*t = 1000 - (tv_aft.tv_usec - tv_bef.tv_usec - *t);
+	return (0);
 }
