@@ -5,18 +5,18 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/06/04 19:47:35 by mguerga           #+#    #+#              #
-#    Updated: 2023/06/26 13:05:22 by mguerga          ###   ########.fr        #
+#    Created: 2023/06/26 13:03:30 by mguerga           #+#    #+#              #
+#    Updated: 2023/06/26 13:11:34 by mguerga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philo
+NAME = philo_bonus
 
 CC = gcc
 
-CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=address #-fsanitize=thread 
+CFLAGS = -Werror -Wall -Wextra #-fsanitize=address
 
-SRC = philo_main.c philo_init.c philo_atoi.c philo_invok.c philo_utils.c
+SRC = philo_main.c
 
 AR = ar rcs
 
