@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:50:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/27 17:00:04 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/28 18:23:56 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	main(int ac, char **av)
 {
+	t_philos	philos;
+
 	if (errors_nargs(ac, av) == -1)
 	{
-		printf("arguments should be 4 or 5, and only digits\n");
+		printf("arguments should be 4 or 5, and only positive ints\n");
 		return (1);
 	}
-	philo_init(av);
+	philo_init(ac, av, &philos);
+	print_compend(&philos);
 	//create_philos(&philos,  
 	return (0);
 }

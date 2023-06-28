@@ -6,7 +6,7 @@
 #    By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/26 13:03:30 by mguerga           #+#    #+#              #
-#    Updated: 2023/06/26 13:11:34 by mguerga          ###   ########.fr        #
+#    Updated: 2023/06/28 18:12:16 by mguerga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 
 CFLAGS = -Werror -Wall -Wextra #-fsanitize=address
 
-SRC = philo_main.c
+SRC = bonus_philo_main.c bonus_philo_utils.c bonus_philo_init.c
 
 AR = ar rcs
 

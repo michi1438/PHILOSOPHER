@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   bonus_philo_init.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/26 13:16:31 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/27 16:32:52 by mguerga          ###   ########.fr       */
+/*   Created: 2023/06/28 17:31:22 by mguerga           #+#    #+#             */
+/*   Updated: 2023/06/28 18:24:30 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "
+#include "../head_philo_bonus.h"
 
-int	main(int ac, char **av)
+void	philo_init(int ac,char **av, t_philos *philos)
 {
-	if (parse_nargs(ac))
-		return (1);
-	return (0);
-}
+	t_comp	*comp;
 
-int parse_nargs(int ac)
-{
-	if (ac == 1)
-		printf("passed\n");
-	return (0);
+	comp = &philos->compend;
+	comp->n_philo = ft_atoi(av[1]);
+	comp->t_death = ft_atoi(av[2]);
+	comp->t_eat = ft_atoi(av[3]);
+	comp->t_sleep = ft_atoi(av[4]);
+	comp->n_cycles = -1;
+	if (ac == 6)
+		comp->n_cycles = ft_atoi(av[5]);
+	comp->forks = comp->n_philo;
 }
