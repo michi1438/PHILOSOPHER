@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/25 12:00:50 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/28 11:44:51 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,7 @@ void	printlog(int log_type, int name)
 	else if (log_type == THINK)
 		printf("%02ld.%03ld %d is thinking\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 	else if (log_type == DIE)
-	{
 		printf("%02ld.%03ld %d died\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
-	}
 	else if (log_type == CREATE)
 		printf("%02ld.%03ld %d CREATED\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 }
