@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 11:44:51 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:26:04 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,16 +33,16 @@ void	printlog(int log_type, int name)
 		printf("%02ld.%03ld %d CREATED\n", tv.tv_sec % 100, tv.tv_usec / 1000, name + 1);
 }
 
-int	has_2_forks(t_philos *philos, t_comp comp, int stbl_name)
+int	has_2_forks(t_philos *philos, t_comp *comp, int stbl_name)
 {
 	int				f_num;
 
+	pthread_mutex_lock(&philos->fork_mutex);
 	if (stbl_name == 0)
-		f_num = comp.n_philo - 1;
+		f_num = comp->n_philo - 1;
 	else
 		f_num = stbl_name - 1;
-	pthread_mutex_lock(&philos->fork_mutex);
-	if (comp.n_philo > 1 && comp.forks[stbl_name] && comp.forks[f_num])
+	if (comp->n_philo > 1 && comp->forks[stbl_name] && comp->forks[f_num])
 	{
 		pthread_mutex_unlock(&philos->fork_mutex);
 		return (1);
