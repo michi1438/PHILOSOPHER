@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/29 11:26:03 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 11:42:17 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philos
 	pthread_mutex_t	fork_mutex;
 	pthread_mutex_t	name_mutex;
 	pthread_mutex_t	eaten_mutex;
+	pthread_mutex_t	done_mutex;
 	t_comp			compend;
 	pthread_t		*thread;
 }	t_philos;
