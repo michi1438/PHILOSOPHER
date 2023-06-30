@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 11:19:11 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/30 12:09:23 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,17 @@ void	init_forks_n_done(t_comp *compend)
 	}
 }
 
-void	init_tv_has_eaten(t_comp *compend)
+void	init_tv_has_eaten(t_comp *comp)
 {
 	int				i;
 	struct timeval	tv_buf;
 
 	i = 0;
-	compend->tv_has_eaten = malloc(sizeof(compend->tv_has_eaten) * compend->n_philo);
-	while (i < compend->n_philo)
+	comp->tv_has_eaten = malloc(sizeof(comp->tv_has_eaten) * comp->n_philo);
+	while (i < comp->n_philo)
 	{
 		gettimeofday(&tv_buf, NULL);
-		compend->tv_has_eaten[i] = tv_buf.tv_usec / 1000 + tv_buf.tv_sec * 1000;
+		comp->tv_has_eaten[i] = tv_buf.tv_usec / 1000 + tv_buf.tv_sec * 1000;
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/29 11:42:17 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/30 12:09:52 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,28 @@ void	print_compend(t_comp *compend);
 //PHILO_UTILS.C
 void	printlog(int log_type, int name);
 int		has_2_forks(t_philos *philos, t_comp *comp, int stbl_name);
-int		catch_me(t_philos *philos, t_comp *comp);
 
 //PHILO_INIT.C
 int		init_args(int ac, char **av, t_comp *compend);
 int		is_unsigned_int(char **av, int ac);
 void	init_forks_n_done(t_comp *compend);
-void	init_tv_has_eaten(t_comp *compend);
+void	init_tv_has_eaten(t_comp *comp);
 
 //PHILO_INVOK.C
 void	create_philos(t_philos *philos);
-void	init_philos(t_philos *philos, int i);
+void	kill_or_not(t_philos *philos, t_comp comp, int i, int flg);
 void	*hello(t_philos *ptr);
-int		is_eating(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycles);
+void	philos_catcher(t_philos *philos, t_comp comp);
+
+//PHILO_CYCLING.C
+void	*cycler(int stbl_cycles, t_philos *philos, t_comp comp, int stbl_name);
+int		is_eatin(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl);
+int		tk_frks(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl);
+int		catch_me(t_philos *philos, t_comp *comp);
+
+//PHILO_TIMER.C
 int		eat_timer(t_philos *philos, int stbl_name, t_comp *comp);
 int		sleep_timer(t_philos *philos, t_comp *comp, int stbl_name);
-void	catch_me_now_im_fallin(t_comp comp);
 
 //PHILO_atoi.c
 int		ft_atoi(const char *num);
