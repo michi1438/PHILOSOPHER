@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 18:19:00 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 17:56:46 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,32 @@ typedef struct s_comp{
 
 typedef struct s_philos{
 	t_comp			compend;
-	pthread_t		*thread;
+	pid_t			*process;
 }	t_philos;
+
+enum	e_status{
+	DIE,
+	FORK,
+	SLEEP,
+	THINK,
+	CREATE,
+};
 
 //B_PHILO_MAIN.C
 int		errors_nargs(int ac, char **av);
 
 //B_PHILO_INIT.C
 void	philo_init(int ac, char **av, t_philos *philos);
+void	init_process(t_philos *philos);
 
 //B_PHILO_UTILS.C
 int		ft_strlen(char *str);
 int		ft_atoi(char *nbr);
 void	print_compend(t_philos *philos);
+int		print_log(int name, int status);
+
+//B_PHILO_INVOK.C
+int		create_philos(t_philos *philos);
+int		child_play(t_philos *philos);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:50:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 18:23:56 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 16:51:13 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int	main(int ac, char **av)
 	}
 	philo_init(ac, av, &philos);
 	print_compend(&philos);
-	//create_philos(&philos,  
-	return (0);
+	return (create_philos(&philos));
 }
 
 int	errors_nargs(int ac, char **av)

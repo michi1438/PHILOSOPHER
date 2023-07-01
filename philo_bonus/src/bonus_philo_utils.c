@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 18:02:15 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 18:00:05 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,30 @@ void	print_compend(t_philos *philos)
 	printf("t_eat = %d$\n", comp.t_eat);
 	printf("t_sleep= %d$\n", comp.t_sleep);
 	printf("n_cycles = %d$\n", comp.n_cycles);
+}
+
+int	print_log(int name, int status)
+{
+	struct timeval	tv;
+	unsigned int	sec;
+	unsigned int	msec;
+
+	gettimeofday(&tv, NULL);
+	sec = tv.tv_sec % 100;
+	msec = tv.tv_usec / 1000;
+	if (status == DIE)
+		return (printf("%2d.%3d %d died\n", sec, msec, name + 1));
+	if (status == FORK)
+	{
+		return (printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
+		return (printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
+		return (printf("%2d.%3d %d is eating\n", sec, msec, name + 1));
+	}
+	if (status == SLEEP)
+		return (printf("%2d.%3d %d is sleeping\n", sec, msec, name + 1));
+	if (status == THINK)
+		return (printf("%2d.%3d %d is thinking\n", sec, msec, name + 1));
+	if (status == CREATE)
+		return (printf("%2d.%3d %d CREATED\n", sec, msec, name + 1));
+	return (0);
 }

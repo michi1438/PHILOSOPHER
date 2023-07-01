@@ -6,13 +6,13 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:31:22 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/28 18:24:30 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/06/29 16:25:54 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../head_philo_bonus.h"
 
-void	philo_init(int ac,char **av, t_philos *philos)
+void	philo_init(int ac, char **av, t_philos *philos)
 {
 	t_comp	*comp;
 
@@ -25,4 +25,13 @@ void	philo_init(int ac,char **av, t_philos *philos)
 	if (ac == 6)
 		comp->n_cycles = ft_atoi(av[5]);
 	comp->forks = comp->n_philo;
+	init_process(philos);
+}
+
+void	init_process(t_philos *philos)
+{
+	t_comp	*comp;
+
+	comp = &philos->compend;
+	philos->process = malloc(sizeof(*philos->process) * comp->n_philo);
 }
