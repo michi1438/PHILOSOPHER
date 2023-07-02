@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/01 10:27:00 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/02 09:51:33 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,24 +44,24 @@ enum	e_status{
 };
 
 //B_PHILO_MAIN.C
-int		errors_nargs(int ac, char **av);
+int				errors_nargs(int ac, char **av);
 
 //B_PHILO_INIT.C
-void	philo_init(int ac, char **av, t_philos *philos);
-void	init_process(t_philos *philos);
+void			philo_init(int ac, char **av, t_philos *philos);
+void			init_process(t_philos *philos);
 
 //B_PHILO_UTILS.C
-int		ft_strlen(char *str);
-int		ft_atoi(char *nbr);
-void	print_compend(t_philos *philos);
-int		print_log(int name, int status);
-void	set_time_last_eat(t_comp *comp);
+int				ft_strlen(char *str);
+int				ft_atoi(char *nbr);
+void			print_compend(t_philos *philos);
+int				print_log(int name, int status);
+void			set_time_last_eat(t_comp *comp);
 
 //B_PHILO_INVOK.C
-int		create_philos(t_philos *philos);
-int		child_play(t_philos *philos);
-int		check_for_death(t_philos *philos);
-int		is_eating(t_philos *philos, t_comp *comp);
-int		sleep_timer(t_philos *philos, t_comp *comp);
+int				create_philos(t_philos *philos);
+int				child_play(t_philos *philos);
+long unsigned	check_for_death(t_philos *philos);
+int				is_eating(t_philos *philos, t_comp *comp);
+int				sleep_timer(t_philos *philos, t_comp *comp);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:20 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/01 10:27:19 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/02 10:05:04 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	child_play(t_philos *philos)
 	return (1);
 }
 
-int	check_for_death(t_philos *philos)
+long unsigned	check_for_death(t_philos *philos)
 {
 	struct timeval	tv;
 	unsigned long	act_time;
@@ -69,22 +69,21 @@ int	check_for_death(t_philos *philos)
 		print_log(philos->process[0], DIE);
 		exit (10);
 	}
-	return (0);
+	return (act_time);
 }
 
 int	is_eating(t_philos *philos, t_comp *comp)
 {
-	int	i;
+	unsigned long	act_time;
 
-	i = 0;
 	//take out 2 forks.
 	print_log(philos->process[0], FORK);
 	set_time_last_eat(comp);
-	while (i < comp->t_eat)
+	act_time = check_for_death(philos);
+	while (act_time - comp->tv_has_eaten < (unsigned long)comp->t_eat)
 	{
-		check_for_death(philos);
-		usleep(1000);//wrapper
-		i++;
+		act_time = check_for_death(philos);
+		usleep(1000);
 	}
 	return (0);
 	//give back the 2 forks;
@@ -92,15 +91,16 @@ int	is_eating(t_philos *philos, t_comp *comp)
 
 int	sleep_timer(t_philos *philos, t_comp *comp)
 {
-	int	i;
+	unsigned long	act_time;
+	unsigned long	t_slp_eat;
 
-	i = 0;
 	print_log(philos->process[0], SLEEP);
-	while (i < comp->t_sleep)
+	act_time = check_for_death(philos);
+	t_slp_eat = (unsigned long)comp->t_sleep + (unsigned long)comp->t_eat;
+	while (act_time - comp->tv_has_eaten < t_slp_eat)
 	{
-		check_for_death(philos);
-		usleep(1000);//wrapper
-		i++;
+		act_time = check_for_death(philos);
+		usleep(100);
 	}
 	print_log(philos->process[0], THINK);
 	return (0);

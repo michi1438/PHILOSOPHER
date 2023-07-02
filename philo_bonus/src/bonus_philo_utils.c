@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/01 10:23:03 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/02 10:04:28 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,19 @@ int	print_log(int name, int status)
 	sec = tv.tv_sec % 100;
 	msec = tv.tv_usec / 1000;
 	if (status == DIE)
-		(printf("%2d.%3d %d died\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d died\n", sec, msec, name + 1));
 	if (status == FORK)
 	{
-		(printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
-		(printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
-		(printf("%2d.%3d %d is eating\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d has taken a fork\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d has taken a fork\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d is eating\n", sec, msec, name + 1));
 	}
 	if (status == SLEEP)
-		(printf("%2d.%3d %d is sleeping\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d is sleeping\n", sec, msec, name + 1));
 	if (status == THINK)
-		(printf("%2d.%3d %d is thinking\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d is thinking\n", sec, msec, name + 1));
 	if (status == CREATE)
-		(printf("%2d.%3d %d CREATED\n", sec, msec, name + 1));
+		(printf("%02d.%03d %02d CREATED\n", sec, msec, name + 1));
 	return (0);
 }
 
