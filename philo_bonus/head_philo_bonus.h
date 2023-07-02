@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/29 17:56:46 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/01 10:27:00 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_comp{
 	int				n_philo;
 	int				n_cycles;
 	int				forks;
-	unsigned int	*tv_has_eaten;
+	unsigned long	tv_has_eaten;
 }	t_comp;
 
 typedef struct s_philos{
@@ -55,9 +55,13 @@ int		ft_strlen(char *str);
 int		ft_atoi(char *nbr);
 void	print_compend(t_philos *philos);
 int		print_log(int name, int status);
+void	set_time_last_eat(t_comp *comp);
 
 //B_PHILO_INVOK.C
 int		create_philos(t_philos *philos);
 int		child_play(t_philos *philos);
+int		check_for_death(t_philos *philos);
+int		is_eating(t_philos *philos, t_comp *comp);
+int		sleep_timer(t_philos *philos, t_comp *comp);
 
 #endif

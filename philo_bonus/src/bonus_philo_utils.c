@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/29 18:00:05 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/01 10:23:03 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,26 @@ int	print_log(int name, int status)
 	sec = tv.tv_sec % 100;
 	msec = tv.tv_usec / 1000;
 	if (status == DIE)
-		return (printf("%2d.%3d %d died\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d died\n", sec, msec, name + 1));
 	if (status == FORK)
 	{
-		return (printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
-		return (printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
-		return (printf("%2d.%3d %d is eating\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d has taken a fork\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d is eating\n", sec, msec, name + 1));
 	}
 	if (status == SLEEP)
-		return (printf("%2d.%3d %d is sleeping\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d is sleeping\n", sec, msec, name + 1));
 	if (status == THINK)
-		return (printf("%2d.%3d %d is thinking\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d is thinking\n", sec, msec, name + 1));
 	if (status == CREATE)
-		return (printf("%2d.%3d %d CREATED\n", sec, msec, name + 1));
+		(printf("%2d.%3d %d CREATED\n", sec, msec, name + 1));
 	return (0);
+}
+
+void	set_time_last_eat(t_comp *comp)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);	
+	comp->tv_has_eaten = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
