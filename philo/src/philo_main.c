@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:18:18 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/09 10:14:34 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/04 18:10:16 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,10 @@ int	main(int ac, char **av)
 		printf ("err args: 4 or 5 args, must be positive ints...\n");
 		return (-1);
 	}
-	print_compend(&philos.compend);
 	create_philos(&philos);
 	return (0);
 }
-
+/*
 void	print_compend(t_comp *compend)
 {
 	printf("n_philo = %d$\n", compend->n_philo);
@@ -34,3 +33,4 @@ void	print_compend(t_comp *compend)
 	printf("t_sleep = %d$\n", compend->t_sleep);
 	printf("n_cycles = %d$\n", compend->n_cycles);
 }
+*/

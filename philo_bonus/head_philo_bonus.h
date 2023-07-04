@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/02 09:51:33 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/03 13:58:10 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <sys/stat.h>
+# include <semaphore.h>
+# include <fcntl.h>
 
 typedef struct s_comp{
 	int				t_death;
@@ -33,6 +36,8 @@ typedef struct s_comp{
 typedef struct s_philos{
 	t_comp			compend;
 	pid_t			*process;
+	sem_t			*semaphore;
+	pthread_t		thread;
 }	t_philos;
 
 enum	e_status{
@@ -49,6 +54,7 @@ int				errors_nargs(int ac, char **av);
 //B_PHILO_INIT.C
 void			philo_init(int ac, char **av, t_philos *philos);
 void			init_process(t_philos *philos);
+void			init_semaphore(t_philos *philos);
 
 //B_PHILO_UTILS.C
 int				ft_strlen(char *str);
@@ -60,7 +66,8 @@ void			set_time_last_eat(t_comp *comp);
 //B_PHILO_INVOK.C
 int				create_philos(t_philos *philos);
 int				child_play(t_philos *philos);
-long unsigned	check_for_death(t_philos *philos);
+void			*check_for_death(t_philos *philos);
+unsigned long	actual_time(void);
 int				is_eating(t_philos *philos, t_comp *comp);
 int				sleep_timer(t_philos *philos, t_comp *comp);
 

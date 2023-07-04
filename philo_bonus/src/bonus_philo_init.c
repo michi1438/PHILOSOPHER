@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:31:22 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/29 16:25:54 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/03 12:46:09 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	philo_init(int ac, char **av, t_philos *philos)
 	if (ac == 6)
 		comp->n_cycles = ft_atoi(av[5]);
 	comp->forks = comp->n_philo;
+	init_semaphore(philos);
 	init_process(philos);
 }
 
@@ -34,4 +35,16 @@ void	init_process(t_philos *philos)
 
 	comp = &philos->compend;
 	philos->process = malloc(sizeof(*philos->process) * comp->n_philo);
+}
+
+void	init_semaphore(t_philos *philos)
+{
+	t_comp	*comp;
+
+	comp = &philos->compend;
+	if (sem_unlink("/forks") == -1)
+		perror("sem_unlink");
+	philos->semaphore = sem_open("/forks", O_CREAT, 0777, comp->n_philo);
+	if (philos->semaphore == SEM_FAILED)
+		perror("SEM_FAILED\n");
 }

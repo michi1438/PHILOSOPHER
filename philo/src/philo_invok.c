@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:00:49 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/04 18:03:47 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	kill_or_not(t_philos *philos, t_comp comp, int i, int flg)
 	i = 0;
 	while (i < comp.n_philo)
 		pthread_join(philos->thread[i++], NULL);
+	free(comp.forks);
+	free(comp.done);
+	free(comp.tv_has_eaten);
+	free(philos->thread);
 	return ;
 }
 
@@ -60,7 +64,6 @@ void	*hello(t_philos *philos)
 
 	pthread_mutex_lock(&philos->name_mutex);
 	stbl_name = enm++;
-	printlog(CREATE, stbl_name);
 	pthread_mutex_unlock(&philos->name_mutex);
 	comp = philos->compend;
 	gettimeofday(&tv_buf, NULL);
