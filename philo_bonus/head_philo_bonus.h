@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/03 13:58:10 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/12 10:16:06 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <sys/stat.h>
+# include <sys/wait.h>
 # include <semaphore.h>
 # include <fcntl.h>
+# include <signal.h>
 
 typedef struct s_comp{
 	int				t_death;
@@ -37,6 +39,7 @@ typedef struct s_philos{
 	t_comp			compend;
 	pid_t			*process;
 	sem_t			*semaphore;
+	sem_t			*semaphore_wwait;
 	pthread_t		thread;
 }	t_philos;
 
@@ -66,6 +69,7 @@ void			set_time_last_eat(t_comp *comp);
 //B_PHILO_INVOK.C
 int				create_philos(t_philos *philos);
 int				child_play(t_philos *philos);
+void			*death_wwait(t_philos *philos);
 void			*check_for_death(t_philos *philos);
 unsigned long	actual_time(void);
 int				is_eating(t_philos *philos, t_comp *comp);

@@ -6,7 +6,7 @@
 #    By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/26 13:03:30 by mguerga           #+#    #+#              #
-#    Updated: 2023/07/03 12:27:46 by mguerga          ###   ########.fr        #
+#    Updated: 2023/07/11 16:57:51 by mguerga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo_bonus
 
 CC = gcc
 
-CFLAGS = -lpthread -Werror -Wall -Wextra #-fsanitize=address
+CFLAGS = -lpthread -Werror -Wall -Wextra -g3 -fsanitize=thread
 
 SRC = bonus_philo_main.c bonus_philo_utils.c bonus_philo_init.c bonus_philo_invok.c \
 
