@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 10:16:06 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/12 15:51:05 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_philos{
 }	t_philos;
 
 enum	e_status{
+	EAT,
 	DIE,
 	FORK,
 	SLEEP,

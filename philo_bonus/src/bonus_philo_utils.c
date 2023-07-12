@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/02 10:04:28 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/12 16:04:04 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ void	set_time_last_eat(t_comp *comp)
 {
 	struct timeval	tv;
 
-	gettimeofday(&tv, NULL);	
+	gettimeofday(&tv, NULL);
 	comp->tv_has_eaten = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
