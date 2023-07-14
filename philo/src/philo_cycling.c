@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:58:39 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:07:45 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 13:12:54 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	tk_frks(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl)
 	comp->forks[f_num] = 0;
 	pthread_mutex_unlock(&philos->fork_mutex);
 	pthread_mutex_lock(&philos->done_mutex);
-	if (*stbl_cycl != -1)
+	if (*stbl_cycl > 0)
 		(*stbl_cycl)--;
 	if (*stbl_cycl == 0)
 		(*comp->done)++;

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 14:10:55 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/08 16:13:29 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 13:41:24 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(const char *num)
 {
-	int	i;
-	int	ret;
-	int	mult;
+	int		i;
+	long	ret;
+	long	mult;
 
 	i = num_len(num);
 	if (i == -1)
@@ -28,6 +28,8 @@ int	ft_atoi(const char *num)
 		ret += (num[i] - 48) * mult;
 		mult *= 10;
 	}
+	if (ret > INT_MAX || ret < 0)
+		return (-1);
 	return (ret);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:09:23 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 13:03:48 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ int	init_args(int ac, char **av, t_comp *compend)
 	if (is_unsigned_int(av, ac) == -1)
 		return (-1);
 	if (ac == 6)
+	{
 		compend->n_cycles = ft_atoi(av[5]);
+		if (compend->n_cycles == 0)
+			return (-2);
+	}
 	else
 		compend->n_cycles = -1;
 	if (ac == 5 || ac == 6)

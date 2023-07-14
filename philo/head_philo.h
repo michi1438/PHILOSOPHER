@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:09:52 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 13:29:30 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define HEAD_PHILO_H
 
 # include <stdio.h>
+# include <limits.h>
 # include <string.h>
 # include <pthread.h>
 # include <unistd.h>
