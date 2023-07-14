@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 15:51:05 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 14:34:45 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <semaphore.h>
 # include <fcntl.h>
 # include <signal.h>
+# include <limits.h>
 
 typedef struct s_comp{
 	int				t_death;

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 16:50:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 16:05:41 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 14:41:02 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	errors_nargs(int ac, char **av)
 				return (-1);
 			e++;
 		}
+		if (ft_atoi(av[i]) == -1)
+			return (-1);
 		i++;
 	}
 	return (0);

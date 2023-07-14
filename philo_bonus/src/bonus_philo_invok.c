@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:20 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 16:07:33 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 14:47:59 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*death_wwait(t_philos *philos)
 	time = comp->t_death - (comp->t_sleep + comp->t_eat);
 	if (comp->n_philo == 1)
 		time = comp->t_death + 1;
-	while (i < time)
+	while (i <= time)
 	{
 		check_for_death(philos);
 		usleep(1000);
@@ -83,7 +83,7 @@ void	*check_for_death(t_philos *philos)
 	comp = &philos->compend;
 	act_time = actual_time();
 	sem_wait(philos->semaphore_wwait);
-	if (act_time - comp->tv_has_eaten > (unsigned long)comp->t_death)
+	if (act_time - comp->tv_has_eaten >= (unsigned long)comp->t_death)
 	{
 		print_log(philos->process[0], DIE);
 		exit (0);

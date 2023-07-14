@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 16:04:04 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/14 14:37:00 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_atoi(char *nbr)
 {
-	int	i;
-	int	ret;
-	int	mult;
+	int		i;
+	long	ret;
+	long	mult;
 
 	mult = 1;
 	ret = 0;
@@ -27,6 +27,8 @@ int	ft_atoi(char *nbr)
 		mult *= 10;
 		i--;
 	}
+	if (ret > INT_MAX || ret < 0)
+		return (-1);
 	return (ret);
 }
 
