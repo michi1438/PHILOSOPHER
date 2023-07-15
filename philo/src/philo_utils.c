@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:15:32 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/15 16:09:28 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,14 @@ int	has_2_forks(t_philos *philos, t_comp *comp, int stbl_name)
 {
 	int				f_num;
 
-	pthread_mutex_lock(&philos->fork_mutex);
+	pthread_mutex_lock(&philos->name_mutex);
 	if (stbl_name == 0)
 		f_num = comp->n_philo - 1;
 	else
 		f_num = stbl_name - 1;
+	pthread_mutex_unlock(&philos->name_mutex);
+	printf("philo n %d has his fork%d=%d and -1 %d=%d\n", stbl_name + 1, stbl_name + 1, comp->forks[stbl_name], f_num + 1, comp->forks[f_num]);
+	pthread_mutex_lock(&philos->fork_mutex);
 	if (comp->n_philo > 1 && comp->forks[stbl_name] && comp->forks[f_num])
 	{
 		pthread_mutex_unlock(&philos->fork_mutex);

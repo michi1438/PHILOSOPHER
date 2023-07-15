@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:58:39 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 13:12:54 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/15 16:09:39 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	*cycler(int stbl_cycles, t_philos *philos, t_comp comp, int stbl_name)
 				printlog(THINK, stbl_name);
 			pthread_mutex_unlock(&philos->done_mutex);
 		}
+		usleep(1000);
 	}
 	return (NULL);
 }
