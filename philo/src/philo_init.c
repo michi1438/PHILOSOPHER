@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:35:02 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 13:03:48 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/17 11:36:32 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	init_args(int ac, char **av, t_comp *compend)
 		compend->n_philo = ft_atoi(av[1]);
 		init_forks_n_done(compend);
 		init_tv_has_eaten(compend);
+		init_og_time(compend);
 		compend->t_death = ft_atoi(av[2]);
 		compend->t_eat = ft_atoi(av[3]);
 		compend->t_sleep = ft_atoi(av[4]);
@@ -36,6 +37,15 @@ int	init_args(int ac, char **av, t_comp *compend)
 	}		
 	else
 		return (-1);
+}
+
+void	init_og_time(t_comp *comp)
+{
+	struct timeval	tv_buf;
+
+	gettimeofday(&tv_buf, NULL);
+	comp->og_time_usec = tv_buf.tv_sec * 1000 + tv_buf.tv_usec / 1000;
+	comp->og_time_sec = tv_buf.tv_sec;
 }
 
 int	is_unsigned_int(char **av, int ac)

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 12:01:14 by mguerga           #+#    #+#             */
-/*   Updated: 2023/06/30 12:01:55 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/17 10:39:37 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	eat_timer(t_philos *philos, int stbl_name, t_comp *comp)
 	gettimeofday(&tv_aft, NULL);
 	bef = comp->tv_has_eaten[stbl_name];
 	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
-	while (aft - bef <= (long unsigned)comp->t_eat)
+	while (aft - bef < (long unsigned)comp->t_eat)
 	{
 		if (catch_me(philos, comp) == 1)
 			return (1);
@@ -41,7 +41,7 @@ int	sleep_timer(t_philos *philos, t_comp *comp, int stbl_name)
 	gettimeofday(&tv_aft, NULL);
 	aft = tv_aft.tv_sec * 1000 + tv_aft.tv_usec / 1000;
 	bef = comp->tv_has_eaten[stbl_name] + comp->t_eat;
-	while (aft - (bef) <= (long unsigned)comp->t_sleep)
+	while (aft - (bef) < (long unsigned)comp->t_sleep)
 	{
 		if (catch_me(philos, comp) == 1)
 			return (1);

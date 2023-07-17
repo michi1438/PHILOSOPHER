@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 13:29:30 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/17 12:05:07 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,13 @@ typedef struct s_comp
 	int				*done;
 	char			*forks;
 	unsigned long	*tv_has_eaten;	
+	unsigned long	og_time_sec;
+	unsigned long	og_time_usec;
 }	t_comp;
 
 typedef struct s_philos
 {
-	pthread_mutex_t	fork_mutex;
+	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	name_mutex;
 	pthread_mutex_t	eaten_mutex;
 	pthread_mutex_t	done_mutex;
@@ -59,7 +61,7 @@ void	print_compend(t_comp *compend);
 //PHILO_MAIN.C
 
 //PHILO_UTILS.C
-void	printlog(int log_type, int name);
+void	printlog(t_comp *comp, int log_type, int name);
 int		has_2_forks(t_philos *philos, t_comp *comp, int stbl_name);
 
 //PHILO_INIT.C
@@ -67,6 +69,7 @@ int		init_args(int ac, char **av, t_comp *compend);
 int		is_unsigned_int(char **av, int ac);
 void	init_forks_n_done(t_comp *compend);
 void	init_tv_has_eaten(t_comp *comp);
+void	init_og_time(t_comp *comp);
 
 //PHILO_INVOK.C
 void	create_philos(t_philos *philos);

@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 13:01:41 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/17 13:53:45 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@ void	create_philos(t_philos *philos)
 
 	comp = philos->compend;
 	philos->thread = malloc(sizeof(pthread_t) * comp.n_philo);
-	pthread_mutex_init(&philos->fork_mutex, NULL);
+	philos->fork_mutex = malloc(sizeof(pthread_mutex_t) * comp.n_philo);
 	pthread_mutex_init(&philos->name_mutex, NULL);
 	pthread_mutex_init(&philos->eaten_mutex, NULL);
 	pthread_mutex_init(&philos->done_mutex, NULL);
 	i = 0;
 	while (i < comp.n_philo)
-	{
-		pthread_create(&(philos->thread[i]), NULL, (void *)hello, philos);
-		i++;
-	}
+		pthread_mutex_init(&philos->fork_mutex[i++], NULL);
+	i = 0;
+	while (i < comp.n_philo)
+		pthread_create(&(philos->thread[i++]), NULL, (void *)hello, philos);
 	return (philos_catcher(philos, comp));
 }
 
@@ -40,7 +40,7 @@ void	kill_or_not(t_philos *philos, t_comp comp, int i, int flg)
 		pthread_mutex_lock(&philos->done_mutex);
 		*comp.done = -1;
 		pthread_mutex_unlock(&philos->done_mutex);
-		printlog(DIE, i);
+		printlog(&comp, DIE, i);
 	}
 	else
 		pthread_mutex_unlock(&philos->done_mutex);
@@ -50,6 +50,7 @@ void	kill_or_not(t_philos *philos, t_comp comp, int i, int flg)
 	free(comp.forks);
 	free(comp.done);
 	free(comp.tv_has_eaten);
+	free(philos->fork_mutex);
 	free(philos->thread);
 	return ;
 }
