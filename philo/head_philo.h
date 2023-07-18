@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 12:15:27 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/17 12:05:07 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/18 10:27:04 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void	*cycler(int stbl_cycles, t_philos *philos, t_comp comp, int stbl_name);
 int		is_eatin(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl);
 int		tk_frks(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl);
 int		catch_me(t_philos *philos, t_comp *comp);
+int		unlock_order(t_comp *comp, t_philos *philos, int stbl_name, int f_num);
 
 //PHILO_TIMER.C
 int		eat_timer(t_philos *philos, int stbl_name, t_comp *comp);

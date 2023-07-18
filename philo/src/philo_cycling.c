@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 11:58:39 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/17 14:45:28 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/18 11:41:35 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	is_eatin(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl)
 	if (*comp->done != -1)
 		printlog(comp, SLEEP, stbl_name);
 	pthread_mutex_unlock(&philos->done_mutex);
-	comp->forks[stbl_name] = 1;
 	comp->forks[f_num] = 1;
-	pthread_mutex_unlock(&philos->fork_mutex[stbl_name]);
+	comp->forks[stbl_name] = 1;
 	pthread_mutex_unlock(&philos->fork_mutex[f_num]);
+	pthread_mutex_unlock(&philos->fork_mutex[stbl_name]);
 	return (0);
 }
 
@@ -58,17 +58,19 @@ int	lock_order(t_comp *comp, t_philos *philos, int stbl_name)
 {
 	int				f_num;
 
-	if (stbl_name == 0)
+	if (stbl_name == 0 && comp->n_philo % 2 != 1)
 	{
 		f_num = comp->n_philo - 1;
-		pthread_mutex_lock(&philos->fork_mutex[f_num]);
 		pthread_mutex_lock(&philos->fork_mutex[stbl_name]);
-		comp->forks[f_num] = 0;
+		pthread_mutex_lock(&philos->fork_mutex[f_num]);
 		comp->forks[stbl_name] = 0;
+		comp->forks[f_num] = 0;
 	}
 	else
 	{
 		f_num = stbl_name - 1;
+		if (stbl_name == 0)
+			f_num = comp->n_philo - 1;
 		pthread_mutex_lock(&philos->fork_mutex[f_num]);
 		pthread_mutex_lock(&philos->fork_mutex[stbl_name]);
 		comp->forks[f_num] = 0;
@@ -91,7 +93,7 @@ int	tk_frks(t_philos *philos, t_comp *comp, int stbl_name, int *stbl_cycl)
 		time_stmp = tv_buf.tv_usec / 1000 + tv_buf.tv_sec * 1000;
 		pthread_mutex_lock(&philos->eaten_mutex);
 		comp->tv_has_eaten[stbl_name] = time_stmp;
-		printlog(comp, FORK, stbl_name);
+		printlog(comp, EAT, stbl_name);
 		pthread_mutex_unlock(&philos->eaten_mutex);
 	}
 	if (*stbl_cycl > 0)

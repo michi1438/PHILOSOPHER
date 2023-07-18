@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 09:46:43 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/17 13:53:45 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/18 11:40:44 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	*hello(t_philos *philos)
 	comp.tv_has_eaten[stbl_name] = tv_buf.tv_usec / 1000 + tv_buf.tv_sec * 1000;
 	pthread_mutex_unlock(&philos->eaten_mutex);
 	stbl_cycles = comp.n_cycles;
+	if (comp.n_philo == 1)
+		return (NULL);
 	return (cycler(stbl_cycles, philos, comp, stbl_name));
 }
 

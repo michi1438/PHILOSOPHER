@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 09:06:30 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/17 14:45:42 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/18 10:52:25 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	printlog(t_comp *comp, int log_type, int name)
 	sec = (msec / 1000) % 100;
 	msec = msec % 1000;
 	if (log_type == FORK)
+		printf("%02ld.%03ld %d has taken a fork\n", sec, msec, name + 1);
+	else if (log_type == EAT)
 	{
 		printf("%02ld.%03ld %d has taken a fork\n", sec, msec, name + 1);
 		printf("%02ld.%03ld %d has taken a fork\n", sec, msec, name + 1);

@@ -6,15 +6,15 @@
 #    By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/04 19:47:35 by mguerga           #+#    #+#              #
-#    Updated: 2023/07/17 14:30:20 by mguerga          ###   ########.fr        #
+#    Updated: 2023/07/18 11:31:14 by mguerga          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-CC = clang 
+CC = gcc 
 
-CFLAGS = -Werror -Wall -Wextra -g3 -fsanitize=thread
+CFLAGS = -lpthread -Werror -Wall -Wextra #-g3 -fsanitize=thread
 
 SRC = philo_main.c philo_init.c philo_atoi.c philo_invok.c philo_utils.c philo_cycling.c \
 		philo_timer.c
