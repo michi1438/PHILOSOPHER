@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:31:22 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/12 16:11:04 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/20 10:12:44 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	init_semaphore(t_philos *philos)
 	comp = &philos->compend;
 	sem_unlink("/forks");
 	sem_unlink("/wwait");
+	sem_unlink("/wwait2");
 	philos->semaphore = sem_open("/forks", O_CREAT, 0777, comp->n_philo);
 	philos->semaphore_wwait = sem_open("/wwait", O_CREAT, 0777, 1);
+	philos->semaphore_wwait2 = sem_open("/wwait2", O_CREAT, 0777, 1);
 }

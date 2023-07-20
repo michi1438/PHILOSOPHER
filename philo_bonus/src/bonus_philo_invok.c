@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/29 16:05:20 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 14:47:59 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/20 10:14:05 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ int	child_play(t_philos *philos)
 	{
 		pthread_create(&philos->thread, NULL, (void *)death_wwait, philos);
 		sem_wait(philos->semaphore);
+		print_log(philos->process[0], FORK);
+		sem_wait(philos->semaphore_wwait2);
 		sem_wait(philos->semaphore);
+		print_log(philos->process[0], FORK);
+		sem_post(philos->semaphore_wwait2);
 		pthread_detach(philos->thread);
 		check_for_death(philos);
 		is_eating(philos, comp);
 		sleep_timer(philos, comp);
-		usleep(1000);
 	}
 	return (0);
 }
@@ -89,6 +92,7 @@ void	*check_for_death(t_philos *philos)
 		exit (0);
 	}
 	sem_post(philos->semaphore_wwait);
+//	printf("passed %d\n", philos->process[0] + 1);
 	return (NULL);
 }
 

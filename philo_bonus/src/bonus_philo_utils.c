@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/14 14:37:00 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/18 18:45:17 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,9 @@ int	print_log(int name, int status)
 	if (status == DIE)
 		(printf("%02d.%03d %02d died\n", sec, msec, name + 1));
 	if (status == FORK)
-	{
 		(printf("%02d.%03d %02d has taken a fork\n", sec, msec, name + 1));
-		(printf("%02d.%03d %02d has taken a fork\n", sec, msec, name + 1));
+	if (status == EAT)
 		(printf("%02d.%03d %02d is eating\n", sec, msec, name + 1));
-	}
 	if (status == SLEEP)
 		(printf("%02d.%03d %02d is sleeping\n", sec, msec, name + 1));
 	if (status == THINK)
