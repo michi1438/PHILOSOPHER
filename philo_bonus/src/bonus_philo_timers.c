@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/12 16:06:52 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/18 18:44:38 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/21 17:21:26 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,7 @@ int	is_eating(t_philos *philos, t_comp *comp)
 {
 	unsigned long	act_time;
 
-	sem_wait(philos->semaphore_wwait);
-	set_time_last_eat(comp);
-	sem_post(philos->semaphore_wwait);
+	set_time_last_eat(philos, comp);
 	print_log(philos->process[0], EAT);
 	act_time = actual_time();
 	comp->n_cycles--;

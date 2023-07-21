@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/26 13:12:17 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/20 10:12:59 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:52:51 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,16 @@
 # include <fcntl.h>
 # include <signal.h>
 # include <limits.h>
+# include <stdatomic.h>
 
 typedef struct s_comp{
-	int				t_death;
-	int				t_eat;
-	int				t_sleep;
-	int				n_philo;
-	int				n_cycles;
-	int				forks;
-	unsigned long	tv_has_eaten;
+	int						t_death;
+	int						t_eat;
+	int						t_sleep;
+	int						n_philo;
+	int						n_cycles;
+	int						forks;
+	_Atomic(unsigned long)	tv_has_eaten;
 }	t_comp;
 
 typedef struct s_philos{
@@ -67,7 +68,7 @@ int				ft_strlen(char *str);
 int				ft_atoi(char *nbr);
 void			print_compend(t_philos *philos);
 int				print_log(int name, int status);
-void			set_time_last_eat(t_comp *comp);
+void			set_time_last_eat(t_philos *philos, t_comp *comp);
 
 //B_PHILO_INVOK.C
 int				create_philos(t_philos *philos);

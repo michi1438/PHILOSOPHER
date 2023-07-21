@@ -6,7 +6,7 @@
 /*   By: mguerga <mguerga@42lausanne.ch>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/28 17:46:49 by mguerga           #+#    #+#             */
-/*   Updated: 2023/07/18 18:45:17 by mguerga          ###   ########.fr       */
+/*   Updated: 2023/07/21 16:39:15 by mguerga          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,11 @@ int	print_log(int name, int status)
 	return (0);
 }
 
-void	set_time_last_eat(t_comp *comp)
+void	set_time_last_eat(t_philos *philos, t_comp *comp)
 {
 	struct timeval	tv;
 
+	(void)philos;
 	gettimeofday(&tv, NULL);
 	comp->tv_has_eaten = tv.tv_sec * 1000 + tv.tv_usec / 1000;
 }
